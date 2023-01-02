@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/logo.png';
+import Button from '../../../components/Button';
 
 
 const Navbar = () => {
@@ -10,7 +11,7 @@ const Navbar = () => {
         <Link className='md:p-4 py-2 block' to='/'>Our Portfolio</Link>
         <Link className='md:p-4 py-2 block' to='/'>Our Team</Link>
         <Link className='md:p-4 py-2 block' to='/'>Contact Us</Link>
-        <Link className='md:p-4 py-2 block' to='/login'><button className='bg-primary text-[#fff] text-base px-10 py-3 rounded-md'>Login</button></Link>
+        <Link className='md:p-4 py-2 block' to='/login'><Button classes={'px-8'}>Login</Button></Link>
     </>
     return (
         <div className='flex flex-wrap w-full justify-between items-center px-10 bg-secondary py-3'>
