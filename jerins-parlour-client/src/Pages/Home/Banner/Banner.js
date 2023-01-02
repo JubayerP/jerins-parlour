@@ -12,6 +12,7 @@ const Banner = () => {
             </div>
             <div className='max-w-md mb-10 md:mb-0'>
                 <img className='w-full' src={banner} alt="banner" />
+                <img src='https://photos.app.goo.gl/R837mLoHwZegCGpA6' alt="" />
             </div>
         </div>
     );
