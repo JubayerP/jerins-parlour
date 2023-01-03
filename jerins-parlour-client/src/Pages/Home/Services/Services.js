@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '../../Shared/Loader/Loader';
 import Service from '../Service/Service';
+import Button from '../../../components/Button';
 
 const Services = () => {
     const {data: services, isLoading} = useQuery({
@@ -25,6 +26,7 @@ const Services = () => {
                     services.map(service => <Service service={service} key={service._id} />)
                 }
             </div>
+            <Button classes={'px-8 rounded mb-10'} pClass={'text-center'}>Explore More</Button>
         </div>
     );
 };
