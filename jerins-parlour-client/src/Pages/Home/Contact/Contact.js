@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Button from '../../../components/Button';
 
 const Contact = () => {
@@ -13,7 +14,7 @@ const Contact = () => {
                     <input className='pl-2 py-3 rounded-md outline-0' placeholder='Phone Number' type="text" />
                     <textarea name="" id="" cols="30" rows="4" className='lg:col-span-2 pl-2 pt-1 rounded-md outline-0' placeholder='Your Message'></textarea>
                 </div>
-                <Button classes='px-6 mt-4' pClass='text-center'>Send Message</Button>
+                <Link to='/register'><Button classes='px-6 mt-4' pClass='text-center'>Send Message</Button></Link>
             </form>
         </div>
     );
