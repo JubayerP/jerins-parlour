@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../../assets/logo.png';
 import Button from '../../../components/Button';
 
 
 const Navbar = () => {
+    const [navbg, setNavbg] = useState('bg-secondary');
     const [open, setOpen] = useState();
+    const location = useLocation();
     const menuItems = <>
         <Link className='md:p-4 py-2 block' to='/home'>Home</Link>
         <Link className='md:p-4 py-2 block' to='/'>Our Portfolio</Link>
@@ -13,8 +15,17 @@ const Navbar = () => {
         <Link className='md:p-4 py-2 block' to='/'>Contact Us</Link>
         <Link className='md:p-4 py-2 block' to='/login'><Button classes={'px-8'}>Login</Button></Link>
     </>
+
+    useEffect(() => {
+        if (window.location.pathname === '/login') {
+            setNavbg('white')
+        } else {
+            setNavbg('secondary')
+        }
+    },[location])
+    
     return (
-        <div className='flex flex-wrap w-full justify-between items-center px-10 bg-secondary py-3'>
+        <div className={`flex flex-wrap w-full justify-between items-center px-10 bg-${navbg} py-3`}>
             <div>
                 <Link to='/'><img className='w-32' src={logo} alt="" /></Link>
             </div>
