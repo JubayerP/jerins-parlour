@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import { AuthContext } from '../../context/AuthProvider';
@@ -23,6 +24,8 @@ const Register = () => {
         confirm: ''
     })
     const [signUpErr, setSignUpErr] = useState('')
+    const [open, setOpen] = useState(false)
+    const [Copen, setCOpen] = useState(false)
     const { createUser, providerLogin, loading, setLoading } = useContext(AuthContext);
 
     const navigate = useNavigate();
@@ -51,14 +54,14 @@ const Register = () => {
 
     const handleEmailChange = e => {
         const email = e.target.value;
-        
+
         if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-            setUserInfo({...userInfo, email: e.target.value})
-            return setErrors({...erros, email: 'Provide a valid email'})
+            setUserInfo({ ...userInfo, email: e.target.value })
+            return setErrors({ ...erros, email: 'Provide a valid email' })
         }
         else {
             setUserInfo({ ...userInfo, email: e.target.value })
-            setErrors({...erros, email: ''})
+            setErrors({ ...erros, email: '' })
         }
     }
 
@@ -66,20 +69,20 @@ const Register = () => {
         const password = e.target.value;
         if (!/.{8,}/.test(password)) {
             setUserInfo({ ...userInfo, password: e.target.value })
-            return setErrors({...erros, password: 'Minimum eight characters length'})
+            return setErrors({ ...erros, password: 'Minimum eight characters length' })
         } else {
             setUserInfo({ ...userInfo, password: e.target.value })
-            setErrors({...erros, password: ''})
+            setErrors({ ...erros, password: '' })
         }
     }
 
     const handleConfirmChange = e => {
         if (userInfo.password !== e.target.value) {
             setUserInfo({ ...userInfo, confirm: e.target.value })
-            setErrors({...erros, confirm: 'Password did not matched!'})
+            return setErrors({ ...erros, confirm: 'Password did not matched!' })
         } else {
             setUserInfo({ ...userInfo, confirm: e.target.value })
-            setErrors({...erros, confirm: ''})
+            setErrors({ ...erros, confirm: '' })
         }
     }
 
@@ -110,11 +113,21 @@ const Register = () => {
                             <input type="text" placeholder='Last Name' value={userInfo.lastName} onChange={handleLnameChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5] mb-4' />
                             <input type="email" placeholder='Email' value={userInfo.email} onChange={handleEmailChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
                             <small className='mb-4 inline-block text-[#da0f0f]'>{erros.email}</small>
-                            <input type="password" placeholder='Password' value={userInfo.password} onChange={handlePasswordChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
+                            <div className='relative'>
+                                <input type={open ? 'text' : 'password'} placeholder='Password' value={userInfo.password} onChange={handlePasswordChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
+                                <div onClick={() => setOpen(!open)}>
+                                    {open ? <AiFillEyeInvisible size={23} className='absolute bottom-2 right-1 cursor-pointer' /> : <AiFillEye size={23} className='absolute bottom-2 right-1 cursor-pointer' />}
+                                </div>
+                            </div>
                             <small className='mb-4 inline-block text-[#da0f0f]'>{erros.password}</small>
-                            <input type="password" placeholder='Confirm Password' value={userInfo.confirm} onChange={handleConfirmChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
+                            <div className='relative'>
+                                <input type={Copen ? 'text' : 'password'} placeholder='Confirm Password' value={userInfo.confirm} onChange={handleConfirmChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
+                                <div onClick={() => setCOpen(!Copen)}>
+                                    {Copen ? <AiFillEyeInvisible size={23} className='absolute bottom-2 right-1 cursor-pointer' /> : <AiFillEye size={23} className='absolute bottom-2 right-1 cursor-pointer' />}
+                                </div>
+                            </div>
                             <small className='mb-4 inline-block text-[#da0f0f]'>{erros.confirm}</small>
-                            <Button disabled={loading} classes={'w-full rounded-sm'}>{loading ? <Loader /> : 'Create an Account'}</Button>
+                            <Button classes={'w-full rounded-sm'}>Create an account</Button>
                             <small className='mb-4 inline-block text-[#da0f0f]'>{signUpErr}</small>
                         </div>
                     </form>
@@ -128,7 +141,7 @@ const Register = () => {
                 </div>
 
                 <div className='text-center lg:max-w-md md:max-w-md sm:max-w-sm max-w-xs mx-auto mb-5'>
-                    <button onClick={handleGoogleLogin} className='border bg-transparent border-[#aaa] w-full py-3 rounded-full text-base font-semibold'>{loading ? <Loader /> :'Continue with Google'}</button>
+                    <button onClick={handleGoogleLogin} className='border bg-transparent border-[#aaa] w-full py-3 rounded-full text-base font-semibold'>{loading ? <Loader /> : 'Continue with Google'}</button>
                 </div>
             </>
         </div>

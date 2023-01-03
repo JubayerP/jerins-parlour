@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/AuthProvider';
 import Loader from '../Shared/Loader/Loader';
 
 const Login = () => {
-    const { providerLogin, loading, setLoading } = useContext(AuthContext);
+    const { providerLogin, loading, setLoading, signIn } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleGoogleLogin = () => {
         providerLogin()
