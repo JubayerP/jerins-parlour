@@ -3,7 +3,7 @@ import Button from '../../../components/Button';
 
 const Contact = () => {
     return (
-        <div className='bg-secondary pt-28 pb-11'>
+        <div className='bg-secondary pt-28 pb-11 px-10'>
             <form className='md:max-w-3xl max-w-sm mx-auto'>
                 <h2 className="text-3xl font-bold text-accent text-center mb-16">Let us handle your project, professionally.</h2>
                 <div className='grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-6'>

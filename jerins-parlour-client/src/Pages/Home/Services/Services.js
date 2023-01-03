@@ -5,7 +5,7 @@ import Service from '../Service/Service';
 import Button from '../../../components/Button';
 
 const Services = () => {
-    const {data: services, isLoading} = useQuery({
+    const {data: services=[], isLoading} = useQuery({
         queryKey: ['services'],
         queryFn: async () => {
             const res = await fetch('http://localhost:5000/services')
