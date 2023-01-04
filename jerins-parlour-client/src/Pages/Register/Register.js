@@ -26,16 +26,17 @@ const Register = () => {
     const [signUpErr, setSignUpErr] = useState('')
     const [open, setOpen] = useState(false)
     const [Copen, setCOpen] = useState(false)
-    const { createUser, providerLogin, loading, setLoading, Gloading, setGLoading } = useContext(AuthContext);
+    const { createUser, providerLogin, loading, setLoading, Gloading, setGLoading, updateUsersProfile } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
     const handleGoogleLogin = () => {
         providerLogin()
             .then(result => {
-                const user = result.user;
-                console.log(user)
-                navigate('/')
+                const resultUser = result.user;
+                const user = { name: resultUser.displayName, email: resultUser.email };
+                console.log(user);
+                saveUser(user)
             })
             .catch(err => {
                 console.log(err.message);
@@ -94,13 +95,30 @@ const Register = () => {
         }
         createUser(userInfo.email, userInfo.password)
             .then(result => {
-                const user = result.user;
-                navigate('/')
-                console.log(user);
+                const name = `${userInfo.firstName} ${userInfo.lastName}`
+                updateUsersProfile(name).then(r => {
+                    const user = { name, email: userInfo.email };
+                    saveUser(user)
+                })
             })
             .catch(err => {
                 setSignUpErr(err.message)
                 setLoading(false)
+            })
+    }
+
+
+    // POST user to the database!
+    const saveUser = (user) => {
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        }).then(res => res.json())
+            .then(data => {
+                navigate('/')
             })
     }
 
@@ -117,7 +135,7 @@ const Register = () => {
                             <input type="email" placeholder='Email' required value={userInfo.email} onChange={handleEmailChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
                             <small className='mb-4 inline-block text-[#da0f0f]'>{erros.email}</small>
                             <div className='relative'>
-                                <input type={open ? 'text' : 'password'} placeholder='Password' required value={userInfo.password} onChange={handlePasswordChange} autocomplete="new-password"
+                                <input type={open ? 'text' : 'password'} placeholder='Password' required value={userInfo.password} onChange={handlePasswordChange} autoComplete="new-password"
                                     className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
                                 {userInfo.password === '' ? '' : <div onClick={() => setOpen(!open)}>
                                     {open ? <AiFillEyeInvisible size={23} className='absolute bottom-2 right-1 cursor-pointer' /> : <AiFillEye size={23} className='absolute bottom-2 right-1 cursor-pointer' />}

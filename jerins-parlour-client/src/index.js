@@ -8,6 +8,7 @@ import App from './App';
 import AuthProvider from './context/AuthProvider';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import {Toaster} from 'react-hot-toast'
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ root.render(
   <AuthProvider>
     <QueryClientProvider client={queryClient}>
       <App />
+      <Toaster />
     </QueryClientProvider>
   </AuthProvider>
 );

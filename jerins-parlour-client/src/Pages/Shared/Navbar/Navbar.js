@@ -12,7 +12,7 @@ const Navbar = () => {
 
     const location = useLocation();
     useEffect(() => {
-        if (window.location.pathname === '/login' || window.location.pathname === '/register') {
+        if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/booking' || window.location.pathname === '/dashboard') {
             setNavbg('white')
         }
         else {
@@ -24,7 +24,7 @@ const Navbar = () => {
         <Link className='md:p-4 py-2 block' to='/home'>Home</Link>
         <Link className='md:p-4 py-2 block' to='/'>Our Portfolio</Link>
         <Link className='md:p-4 py-2 block' to='/'>Our Team</Link>
-        <Link className='md:p-4 py-2 block' to='/'>Contact Us</Link>
+        <Link className='md:p-4 py-2 block' to='/dashboard/myorders'>Dashboard</Link>
         {user?.uid ?
             <>
                 <Button onClick={logOut} classes={'px-8'}>Logout</Button>
