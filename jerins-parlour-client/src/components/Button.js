@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Button = ({children, classes, pClass, onClick}) => {
+const Button = ({children, classes, pClass, onClick, disabled}) => {
     return (
         <div className={`${pClass}`}>
-            <button onClick={onClick} className={`bg-primary text-[#fff] text-base md:py-3 py-2 rounded-md ${classes}`}>{children}</button>
+            <button disabled={disabled} onClick={onClick} className={`${disabled ? 'bg-white' : 'bg-primary'} text-[#fff] text-base md:py-3 py-2 rounded-md ${classes}`}>{children}</button>
         </div>
     );
 };

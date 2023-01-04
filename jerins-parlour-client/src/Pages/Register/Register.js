@@ -26,7 +26,7 @@ const Register = () => {
     const [signUpErr, setSignUpErr] = useState('')
     const [open, setOpen] = useState(false)
     const [Copen, setCOpen] = useState(false)
-    const { createUser, providerLogin, loading, setLoading } = useContext(AuthContext);
+    const { createUser, providerLogin, loading, setLoading, Gloading, setGLoading } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ const Register = () => {
             })
             .catch(err => {
                 console.log(err.message);
-                setLoading(false);
+                setGLoading(false);
             })
     }
 
@@ -89,6 +89,9 @@ const Register = () => {
 
     const handleSignUp = (e) => {
         e.preventDefault();
+        if (userInfo.password !== userInfo.confirm) {
+            return;
+        }
         createUser(userInfo.email, userInfo.password)
             .then(result => {
                 const user = result.user;
@@ -109,25 +112,26 @@ const Register = () => {
 
                     <form onSubmit={handleSignUp} className=''>
                         <div className=''>
-                            <input type="text" placeholder='First Name' value={userInfo.firstName} onChange={handleFnameChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5] mb-4' />
-                            <input type="text" placeholder='Last Name' value={userInfo.lastName} onChange={handleLnameChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5] mb-4' />
-                            <input type="email" placeholder='Email' value={userInfo.email} onChange={handleEmailChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
+                            <input type="text" placeholder='First Name' required value={userInfo.firstName} onChange={handleFnameChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5] mb-4' />
+                            <input type="text" placeholder='Last Name' required value={userInfo.lastName} onChange={handleLnameChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5] mb-4' />
+                            <input type="email" placeholder='Email' required value={userInfo.email} onChange={handleEmailChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
                             <small className='mb-4 inline-block text-[#da0f0f]'>{erros.email}</small>
                             <div className='relative'>
-                                <input type={open ? 'text' : 'password'} placeholder='Password' value={userInfo.password} onChange={handlePasswordChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
-                                <div onClick={() => setOpen(!open)}>
+                                <input type={open ? 'text' : 'password'} placeholder='Password' required value={userInfo.password} onChange={handlePasswordChange} autocomplete="new-password"
+                                    className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
+                                {userInfo.password === '' ? '' : <div onClick={() => setOpen(!open)}>
                                     {open ? <AiFillEyeInvisible size={23} className='absolute bottom-2 right-1 cursor-pointer' /> : <AiFillEye size={23} className='absolute bottom-2 right-1 cursor-pointer' />}
-                                </div>
+                                </div>}
                             </div>
                             <small className='mb-4 inline-block text-[#da0f0f]'>{erros.password}</small>
                             <div className='relative'>
                                 <input type={Copen ? 'text' : 'password'} placeholder='Confirm Password' value={userInfo.confirm} onChange={handleConfirmChange} className='block py-2 w-full outline-none pl-2 border-b border-[#c5c5c5]' />
-                                <div onClick={() => setCOpen(!Copen)}>
+                                {userInfo.confirm === '' ? '' : <div onClick={() => setCOpen(!Copen)}>
                                     {Copen ? <AiFillEyeInvisible size={23} className='absolute bottom-2 right-1 cursor-pointer' /> : <AiFillEye size={23} className='absolute bottom-2 right-1 cursor-pointer' />}
-                                </div>
+                                </div>}
                             </div>
                             <small className='mb-4 inline-block text-[#da0f0f]'>{erros.confirm}</small>
-                            <Button classes={'w-full rounded-sm'}>Create an account</Button>
+                            <Button disabled={loading} classes={'w-full rounded-sm'}>{loading ? <Loader /> : 'Create an account'}</Button>
                             <small className='mb-4 inline-block text-[#da0f0f]'>{signUpErr}</small>
                         </div>
                     </form>
@@ -141,7 +145,7 @@ const Register = () => {
                 </div>
 
                 <div className='text-center lg:max-w-md md:max-w-md sm:max-w-sm max-w-xs mx-auto mb-5'>
-                    <button onClick={handleGoogleLogin} className='border bg-transparent border-[#aaa] w-full py-3 rounded-full text-base font-semibold'>{loading ? <Loader /> : 'Continue with Google'}</button>
+                    <button onClick={handleGoogleLogin} className='border bg-transparent border-[#aaa] w-full py-3 rounded-full text-base font-semibold'>{Gloading ? <Loader /> : 'Continue with Google'}</button>
                 </div>
             </>
         </div>
